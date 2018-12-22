@@ -24,7 +24,7 @@ import React from 'react';
                      placeholder="Quantité" 
                      value={this.state.quantity} 
                      onChange={this.handleChangeQuantity} />
-                     <button type="submit">Ajouter</button>
+                     <button type="submit" className="btn btn-secondary">Ajouter</button>
                  </form>
              </div>
          );
