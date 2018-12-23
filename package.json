@@ -8,6 +8,7 @@
     "popper.js": "^1.14.6",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
+    "react-form-validator-core": "^0.5.1",
     "react-scripts": "2.1.1",
     "redux": "^4.0.1",
     "uuid": "^3.3.2"
