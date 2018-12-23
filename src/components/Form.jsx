@@ -16,16 +16,19 @@ import React from 'react';
              <div>
                  <h3>{this.props.formTitle}</h3>
                  <form onSubmit={this.handleSubmit} className="form-group">
-                     <input type="text" 
+
+                     <input type="text"
                      placeholder="Nom de l'article" 
                      className="form-control"
                      value={this.state.name} 
                      onChange={this.handleChangeName}/>
+
                      <input type="number" 
                      placeholder="Quantité" 
                      className="form-control"
                      value={this.state.quantity} 
                      onChange={this.handleChangeQuantity} />
+
                      <button type="submit" className="btn btn-secondary">Ajouter</button>
                  </form>
              </div>

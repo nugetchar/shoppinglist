@@ -1,7 +1,7 @@
 // Root component
 import React from 'react';
-import Form from './Form';
-import ItemList from './ItemList';
+import Form from './Form.jsx';
+import ItemList from './ItemList.jsx';
 const uuidv4 = require('uuid/v4');
 
 // class based component
