@@ -29,4 +29,6 @@ export const articleReducers = (state = [], action) => {
 
     return newState;
 } 
-export const store = createStore(combineReducers({articles: articleReducers}));
+export const store = createStore(
+    combineReducers({articles: articleReducers}),
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());

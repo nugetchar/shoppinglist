@@ -2,11 +2,19 @@ import React from 'react';
 import { ValidatorForm } from 'react-form-validator-core';
 import TextValidator from '../validators/TextValidator';
 
+ValidatorForm.addValidationRule('gtThanZero', (value) => {
+    if (parseInt(value) <= 0) {
+        return false;
+    }
+    return true;
+});
+
+
  class Form extends React.Component {
     DEFAULT_STATE = {
         article: {
-            name: 'toto',
-            quantity: 0
+            name: '',
+            quantity: 1
         }
     };
 
@@ -45,8 +53,8 @@ import TextValidator from '../validators/TextValidator';
                         name="itemQuantity"
                         value={this.state.article.quantity} 
                         onChange={this.handleChangeQuantity}
-                        validators={['required']}
-                        errorMessages={['Veuillez saisir une quantité']}
+                        validators={['required', 'gtThanZero']}
+                        errorMessages={['Veuillez saisir une quantité', 'La valeur doit-être supérieure à 0']}
                     />
                      <button type="submit" className="btn btn-secondary">Ajouter</button>
                  </ValidatorForm>
@@ -56,9 +64,6 @@ import TextValidator from '../validators/TextValidator';
 
      handleSubmit(event) {
         event.preventDefault();
-        if (true) {
-            
-        }
         this.props.addArticle(this.state.article);
         this.setState({...this.DEFAULT_STATE});
     
