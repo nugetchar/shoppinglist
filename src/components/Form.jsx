@@ -1,6 +1,7 @@
 import React from 'react';
 import { ValidatorForm } from 'react-form-validator-core';
 import TextValidator from '../validators/TextValidator';
+const uuidv4 = require('uuid/v4');
 
 ValidatorForm.addValidationRule('gtThanZero', (value) => {
     if (parseInt(value) <= 0) {
@@ -12,7 +13,7 @@ ValidatorForm.addValidationRule('gtThanZero', (value) => {
 
  class Form extends React.Component {
     DEFAULT_STATE = {
-        article: {
+        item: {
             name: '',
             quantity: 1
         }
@@ -39,11 +40,11 @@ ValidatorForm.addValidationRule('gtThanZero', (value) => {
                         onChange={this.handleChangeName}
                         type="text"
                         name="itemName"
-                        placeholder="Nom de l'article" 
+                        placeholder="Nom de l'item" 
                         className="form-control"
-                        value={this.state.article.name} 
+                        value={this.state.item.name} 
                         validators={['required']}
-                        errorMessages={['Veuillez saisir un nom d\'article']}
+                        errorMessages={['Veuillez saisir un nom d\'item']}
                     />
 
                     <TextValidator
@@ -51,7 +52,7 @@ ValidatorForm.addValidationRule('gtThanZero', (value) => {
                         placeholder="Quantité" 
                         className="form-control"
                         name="itemQuantity"
-                        value={this.state.article.quantity} 
+                        value={this.state.item.quantity} 
                         onChange={this.handleChangeQuantity}
                         validators={['required', 'gtThanZero']}
                         errorMessages={['Veuillez saisir une quantité', 'La valeur doit-être supérieure à 0']}
@@ -64,7 +65,14 @@ ValidatorForm.addValidationRule('gtThanZero', (value) => {
 
      handleSubmit(event) {
         event.preventDefault();
-        this.props.addArticle(this.state.article);
+		this.setState({
+            ...this.state,
+            item: {
+                ...this.state.item,
+                id: uuidv4()
+            }
+        });
+        this.props.addItem(this.state.item);
         this.setState({...this.DEFAULT_STATE});
     
      }
@@ -73,8 +81,8 @@ ValidatorForm.addValidationRule('gtThanZero', (value) => {
          this.setState(
              {
                  ...this.state, 
-                 article: {
-                     ...this.state.article, 
+                 item: {
+                     ...this.state.item, 
                      quantity: event.target.value
                     }
             }
@@ -85,8 +93,8 @@ ValidatorForm.addValidationRule('gtThanZero', (value) => {
         this.setState(
             {
                 ...this.state, 
-                article: {
-                    ...this.state.article, 
+                item: {
+                    ...this.state.item, 
                     name: event.target.value
                    }
            }

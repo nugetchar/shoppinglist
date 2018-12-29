@@ -3,7 +3,6 @@ import React from 'react';
 import Form from './Form.jsx';
 import ItemList from './ItemList.jsx';
 import {connect} from 'react-redux';
-const uuidv4 = require('uuid/v4');
 
 // class based component
 class App extends React.Component {
@@ -12,50 +11,33 @@ class App extends React.Component {
 		articles: []
 	}
 
-	// addArticle = (article) => {
-	// 	article.id = uuidv4();
-	// 	this.setState({articles: [...this.state.articles, article]});
-	// };
-
-	addArticle = (article) => {
-		article.id = uuidv4();
-		this.props.addArticle(article);
-	}
-
 	render() {
 		// return JSX (not HTML)
 		return (
 			<div>
 				<h3>Liste de courses</h3>
-				<Form formTitle="Ajouter un article" addArticle={this.addArticle}/>
+				<Form formTitle="Ajouter un article" addItem={this.props.addArticle}/>
 				<ItemList listTitle="Liste de courses" articles={this.props.articles}/>
 			</div>
 		);
 	}
 }
 
-const mapStateToProps = (state) => {
-	return {
-		articles: state.articles
-	};
-}
+const addArticleActionCreator = (article) => ({type: 'ADD_ARTICLE', payload: article});
+const updateArticleActionCreator = (article) => ({type: 'UPDATE_ARTICLE', payload: article});
+const removeArticleActionCreator = (idArticle) => ({type: 'REMOVE_ARTICLE', payload: idArticle});
+const emptyBasketActionCreator = (article) => ({type: 'EMPTY_BASKET', payload: article});
 
-const mapDispatchToProps = (dispatch) => {
-	return {
-		addArticle: (article) => {
-			dispatch({type: 'ADD_ARTICLE', payload: article});			
-		},
-		updateArticle: (article) => {
-			dispatch({type: 'UPDATE_ARTICLE', payload: article});
-		},
-		removeArticle: (idArticle) => {
-			dispatch({type: 'REMOVE_ARTICLE', payload: idArticle});
-		},
-		emptyBasket: () => {
-			dispatch({type: 'EMPTY_BASKET'});
-		}
-	};
-}
+const mapStateToProps = (state) => ({articles: state.articles})
+
+const mapDispatchToProps = (dispatch) => (
+	{
+		addArticle: (article) => dispatch(addArticleActionCreator(article)),
+		updateArticle: (article) => dispatch(updateArticleActionCreator(article)),
+		removeArticle: (idArticle) => dispatch(removeArticleActionCreator(idArticle)),
+		emptyBasket: () => dispatch(emptyBasketActionCreator())
+	}
+);
 
 
 // if not specifying the mapDispatchToProps, the dispatch method is 
