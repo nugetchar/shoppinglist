@@ -2,7 +2,7 @@
 import React from 'react';
 import Form from './Form.jsx';
 import ItemList from './ItemList.jsx';
-const uuidv4 = require('uuid/v4');
+import {connect} from 'react-redux';
 
 // class based component
 class App extends React.Component {
@@ -11,21 +11,35 @@ class App extends React.Component {
 		articles: []
 	}
 
-	addArticle = (article) => {
-		article.id = uuidv4();
-		this.setState({articles: [...this.state.articles, article]});
-	};
-
 	render() {
 		// return JSX (not HTML)
 		return (
 			<div>
 				<h3>Liste de courses</h3>
-				<Form formTitle="Ajouter un article" addArticle={this.addArticle}/>
-				<ItemList listTitle="Liste de courses" articles={this.state.articles}/>
+				<Form formTitle="Ajouter un article" addItem={this.props.addArticle}/>
+				<ItemList listTitle="Liste de courses" items={this.props.articles} updateItem={this.props.updateArticle}/>
 			</div>
 		);
 	}
 }
 
-export default App;
+const addArticleActionCreator = (article) => ({type: 'ADD_ARTICLE', payload: article});
+const updateArticleActionCreator = (article) => ({type: 'UPDATE_ARTICLE', payload: article});
+const removeArticleActionCreator = (idArticle) => ({type: 'REMOVE_ARTICLE', payload: idArticle});
+const emptyBasketActionCreator = (article) => ({type: 'EMPTY_BASKET', payload: article});
+
+const mapStateToProps = (state) => ({articles: state.articles})
+
+const mapDispatchToProps = (dispatch) => (
+	{
+		addArticle: (article) => dispatch(addArticleActionCreator(article)),
+		updateArticle: (article) => dispatch(updateArticleActionCreator(article)),
+		removeArticle: (idArticle) => dispatch(removeArticleActionCreator(idArticle)),
+		emptyBasket: () => dispatch(emptyBasketActionCreator())
+	}
+);
+
+
+// if not specifying the mapDispatchToProps, the dispatch method is 
+// directly binded to the component props
+export default connect(mapStateToProps, mapDispatchToProps)(App);

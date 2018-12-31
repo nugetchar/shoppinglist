@@ -1,12 +1,21 @@
 import React from 'react';
 import { ValidatorForm } from 'react-form-validator-core';
 import TextValidator from '../validators/TextValidator';
+const uuidv4 = require('uuid/v4');
+
+ValidatorForm.addValidationRule('gtThanZero', (value) => {
+    if (parseInt(value) <= 0) {
+        return false;
+    }
+    return true;
+});
+
 
  class Form extends React.Component {
     DEFAULT_STATE = {
-        article: {
-            name: 'toto',
-            quantity: 0
+        item: {
+            name: '',
+            quantity: 1,
         }
     };
 
@@ -31,11 +40,11 @@ import TextValidator from '../validators/TextValidator';
                         onChange={this.handleChangeName}
                         type="text"
                         name="itemName"
-                        placeholder="Nom de l'article" 
+                        placeholder="Nom de l'item" 
                         className="form-control"
-                        value={this.state.article.name} 
+                        value={this.state.item.name} 
                         validators={['required']}
-                        errorMessages={['Veuillez saisir un nom d\'article']}
+                        errorMessages={['Veuillez saisir un nom d\'item']}
                     />
 
                     <TextValidator
@@ -43,10 +52,10 @@ import TextValidator from '../validators/TextValidator';
                         placeholder="Quantité" 
                         className="form-control"
                         name="itemQuantity"
-                        value={this.state.article.quantity} 
+                        value={this.state.item.quantity} 
                         onChange={this.handleChangeQuantity}
-                        validators={['required']}
-                        errorMessages={['Veuillez saisir une quantité']}
+                        validators={['required', 'gtThanZero']}
+                        errorMessages={['Veuillez saisir une quantité', 'La valeur doit-être supérieure à 0']}
                     />
                      <button type="submit" className="btn btn-secondary">Ajouter</button>
                  </ValidatorForm>
@@ -56,10 +65,14 @@ import TextValidator from '../validators/TextValidator';
 
      handleSubmit(event) {
         event.preventDefault();
-        if (true) {
-            
+        const state = {
+            ...this.state, 
+            item: {
+                ...this.state.item, 
+                id: uuidv4()
+            }
         }
-        this.props.addArticle(this.state.article);
+        this.props.addItem(state.item);
         this.setState({...this.DEFAULT_STATE});
     
      }
@@ -68,8 +81,8 @@ import TextValidator from '../validators/TextValidator';
          this.setState(
              {
                  ...this.state, 
-                 article: {
-                     ...this.state.article, 
+                 item: {
+                     ...this.state.item, 
                      quantity: event.target.value
                     }
             }
@@ -80,8 +93,8 @@ import TextValidator from '../validators/TextValidator';
         this.setState(
             {
                 ...this.state, 
-                article: {
-                    ...this.state.article, 
+                item: {
+                    ...this.state.item, 
                     name: event.target.value
                    }
            }
