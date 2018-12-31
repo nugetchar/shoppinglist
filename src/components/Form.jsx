@@ -15,7 +15,7 @@ ValidatorForm.addValidationRule('gtThanZero', (value) => {
     DEFAULT_STATE = {
         item: {
             name: '',
-            quantity: 1
+            quantity: 1,
         }
     };
 
@@ -65,14 +65,14 @@ ValidatorForm.addValidationRule('gtThanZero', (value) => {
 
      handleSubmit(event) {
         event.preventDefault();
-		this.setState({
-            ...this.state,
+        const state = {
+            ...this.state, 
             item: {
-                ...this.state.item,
+                ...this.state.item, 
                 id: uuidv4()
             }
-        });
-        this.props.addItem(this.state.item);
+        }
+        this.props.addItem(state.item);
         this.setState({...this.DEFAULT_STATE});
     
      }

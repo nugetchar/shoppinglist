@@ -17,7 +17,7 @@ class App extends React.Component {
 			<div>
 				<h3>Liste de courses</h3>
 				<Form formTitle="Ajouter un article" addItem={this.props.addArticle}/>
-				<ItemList listTitle="Liste de courses" articles={this.props.articles}/>
+				<ItemList listTitle="Liste de courses" items={this.props.articles} updateItem={this.props.updateArticle}/>
 			</div>
 		);
 	}
